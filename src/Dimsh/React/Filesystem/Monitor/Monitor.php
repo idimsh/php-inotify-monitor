@@ -129,7 +129,10 @@ class Monitor extends EventEmitter
          * And I have chosen the second, since as the time of this writing, there is no check
          * for platform in the whole code.
          */
-        if (!file_exists($configurator->getBaseDirectory()) && file_exists('/') && $configurator->getBaseDirectory() != '/' && $configurator->isAutoCreateNotFoundMonitor()) {
+        if (!file_exists($configurator->getBaseDirectory()) &&
+          file_exists('/') &&
+          $configurator->getBaseDirectory() != '/' &&
+          $configurator->isAutoCreateNotFoundMonitor()) {
             // $base_directory is required to be with trailing slash
             $base_directory     = $configurator->getBaseDirectoryWithTrailingSlash();
             $level              = substr_count($base_directory, '/') - 1;
@@ -143,24 +146,25 @@ class Monitor extends EventEmitter
             try {
                 $second_confiurator->setBaseDirectory('/');
                 $this->base_dir_monitor = new Monitor(
-                  $second_confiurator,
-                  $this->getEventLoop()
+                    $second_confiurator,
+                    $this->getEventLoop()
                 );
-                $this->base_dir_monitor->on(Monitor::EV_CREATE,
-                  function ($path, $monitor) use ($base_directory) {
-                      /**
-                       * @var \Dimsh\React\Filesystem\Monitor\Monitor $monitor
-                       */
-                      if ($path == $base_directory) {
-                          $monitor->getEventLoop()->stop();
-                          $this->inotify = new Inotify($monitor->getEventLoop());
-                          $this->setupListeners();
-                          $this->add($this->configurator->getBaseDirectoryWithTrailingSlash());
-                          $monitor->getEventLoop()->run();
-                      }
-                  });
+                $this->base_dir_monitor->on(
+                    Monitor::EV_CREATE,
+                    function ($path, $monitor) use ($base_directory) {
+                        /**
+                         * @var \Dimsh\React\Filesystem\Monitor\Monitor $monitor
+                         */
+                        if ($path == $base_directory) {
+                            $monitor->getEventLoop()->stop();
+                            $this->inotify = new Inotify($monitor->getEventLoop());
+                            $this->setupListeners();
+                            $this->add($this->configurator->getBaseDirectoryWithTrailingSlash());
+                            $monitor->getEventLoop()->run();
+                        }
+                    }
+                );
             } catch (\Exception $exception) {
-
             }
         } else {
             $this->inotify = new Inotify($this->getEventLoop());
@@ -314,7 +318,8 @@ class Monitor extends EventEmitter
     protected function add($path): void
     {
         if ($this->hasTrailingSlash($path)) {
-            $mask = $this->configurator->isFireModifiedOnDirectories() ? self::MASK_DIRECTORY_WITH_MODIFY : self::MASK_DIRECTORY;
+            $mask = $this->configurator->isFireModifiedOnDirectories() ?
+              self::MASK_DIRECTORY_WITH_MODIFY : self::MASK_DIRECTORY;
             if ($this->configurator->isMonitorCreatedOnly()) {
                 $mask = self::MASK_DIRECTORY_CREATED_ONLY;
             }
@@ -442,8 +447,8 @@ class Monitor extends EventEmitter
     {
         if ($this->external_event_loop !== null) {
             trigger_error(
-              'calling run on Monitor external loop inside the monitor, this is mostly in-correct as the external loop must be run from the caller.',
-              E_USER_WARNING
+                'calling run on Monitor external loop inside the monitor, this is mostly in-correct as the external loop must be run from the caller.',
+                E_USER_WARNING
             );
         }
         return $this->getEventLoop()->run();

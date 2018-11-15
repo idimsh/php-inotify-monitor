@@ -11,7 +11,6 @@
 
 namespace Dimsh\React\Filesystem\Monitor;
 
-
 class MonitorConfigurator
 {
     use MonitorTrait;
@@ -513,10 +512,10 @@ class MonitorConfigurator
 
                 $this->is_all_files_to_monitor_not_recursive &= $this->analyzed_files_to_monitor[$pattern]['is_not_recursive'];
                 $this->dirnames_from_files_to_monitor        = array_unique(
-                  array_merge(
-                    $this->dirnames_from_files_to_monitor,
-                    $this->getDirnamesWithoutEmpty($pattern)
-                  )
+                    array_merge(
+                        $this->dirnames_from_files_to_monitor,
+                        $this->getDirnamesWithoutEmpty($pattern)
+                    )
                 );
             }
         }
@@ -614,5 +613,4 @@ class MonitorConfigurator
         $this->auto_create_not_found_monitor = $auto_create_not_found_monitor;
         return $this;
     }
-
 }
