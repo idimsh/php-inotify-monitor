@@ -1,3 +1,8 @@
+[![Build Status](https://travis-ci.org/idimsh/php-inotify-monitor.svg?branch=master)](https://travis-ci.org/idimsh/php-inotify-monitor)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/idimsh/php-inotify-monitor/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/idimsh/php-inotify-monitor/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/idimsh/php-inotify-monitor/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/idimsh/php-inotify-monitor/?branch=master)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)  
+
 # React PHP Inotify Monitor / Watcher
 ## Wrapper around PHP Inotify Extension and React PHP
 A library monitor file system changes utilizing [React PHP Event Loop](https://github.com/reactphp/event-loop) and [React Inotify](https://github.com/mkraemer/react-inotify/)
