@@ -1,0 +1,31 @@
+{
+  "name": "idimsh/inotify-monitor",
+  "type": "library",
+  "description": "A wrapper around inotify library React-Inotify [https://github.com/mkraemer/react-inotify/] with configurator to monitor files (and directories) for 3 main events: Create, Modified, Deleted",
+  "keywords": ["inotify", "react", "PHP", "monitor", "filesystem"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Abdulrahman Dimashki",
+      "email": "idimsh@gmail.com"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/idimsh/inotify-monitor/issues",
+    "source": "https://github.com/idimsh/inotify-monitor"
+  },
+  "require": {
+    "mkraemer/react-inotify": "1.1.0",
+    "php": ">=7.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": ">= 7.0, < 8.0",
+    "squizlabs/php_codesniffer": "~3.2",
+    "vladahejda/phpunit-assert-exception": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "Dimsh\\React\\Filesystem\\": "src/Dimsh/React/Filesystem"
+    }
+  }
+}
