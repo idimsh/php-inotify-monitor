@@ -1,5 +1,5 @@
 {
-  "name": "idimsh/inotify-monitor",
+  "name": "idimsh/php-inotify-monitor",
   "type": "library",
   "description": "A wrapper around inotify library React-Inotify [https://github.com/mkraemer/react-inotify/] with configurator to monitor files (and directories) for 3 main events: Create, Modified, Deleted",
   "keywords": ["inotify", "react", "PHP", "monitor", "filesystem"],
@@ -10,7 +10,7 @@
       "email": "idimsh@gmail.com"
     }
   ],
-  "homepage": "https://github.com/idimsh/inotify-monitor",
+  "homepage": "https://github.com/idimsh/php-inotify-monitor",
   "require": {
     "php": ">=7.1",
     "mkraemer/react-inotify": "1.1.0"
