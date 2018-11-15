@@ -1,7 +1,7 @@
 {
   "name": "idimsh/php-inotify-monitor",
   "type": "library",
-  "description": "A wrapper around inotify library React-Inotify [https://github.com/mkraemer/react-inotify/] with configurator to monitor files (and directories) for 3 main events: Create, Modified, Deleted",
+  "description": "A wrapper library around React-Inotify [https://github.com/mkraemer/react-inotify/] with configurator to monitor files/directories for 3 main events: Create, Modify, Delete",
   "keywords": ["inotify", "react", "PHP", "monitor", "filesystem"],
   "license": "MIT",
   "authors": [
