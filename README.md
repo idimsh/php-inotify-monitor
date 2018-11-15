@@ -1,15 +1,15 @@
-#React PHP Inotify Monitor / Watcher
-##Wrapper around PHP Inotify Extension and React PHP
+# React PHP Inotify Monitor / Watcher
+## Wrapper around PHP Inotify Extension and React PHP
 A library monitor file system changes utilizing [React PHP Event Loop](https://github.com/reactphp/event-loop) and [React Inotify](https://github.com/mkraemer/react-inotify/)
 
 It was created to monitor 3 basic events: Created, Modified, and Deleted. And to reduce the many events need to be used with [React Inotify](https://github.com/mkraemer/react-inotify/) to just simple 3.
 
-##Requirements
+## Requirements
 * PHP >= 7.1
 * inotify php extension
 * Linux like system where inotify extension is available
 
-##Features
+## Features
 * Monitor files and directories 
 * Configured patterns to monitor using shell patterns
 * Configured nesting level for monitoring, supported at global level and at pattern level
@@ -22,7 +22,7 @@ It was created to monitor 3 basic events: Created, Modified, and Deleted. And to
 $ composer require idimsh/inotify-monitor
 ```
   
-####Basic usage:
+#### Basic usage:
 ```PHP
 require_once 'vendor/autoload.php';
 
@@ -78,11 +78,11 @@ which include a slash in the middle or at the beginning are considered in absolu
 removing Base Dir from their absolute path.  
   
 4. `setFireModifiedOnDirectories()`: Default to false. Set to true to fire the modified event on directories, this is fired when a directory attributes (mtime, permissions) are changed.  
-5. `setMonitorCreatedOnly()`: Default to false. Set to true to only watch for the "CREATED" event, used by Monitor for quick waiting for non existent Base Dir.
+5. `setMonitorCreatedOnly()`: Default to false. Set to true to only watch for the "CREATED" event, used by Monitor itself for quick waiting for non existent Base Dir.
 6. `setAutoCreateNotFoundMonitor()`: Default to false. Set to true and Monitor will create another inner Monitor automatically for non existent Base Dir.
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_examples_  
+_examples_  
 ```PHP
 MonitorConfigurator::factory()
   ->setBaseDirectory('/tmp')
@@ -103,14 +103,17 @@ MonitorConfigurator::factory()
   ->setLevel(5)
   ->setFilesToMonitor([
     'nginx/*.conf',    # Will monitor and matches files: '/etc/nginx/*.conf', this pattern constains 
-                       # a slash and is not recursive.
+                       # a slash so it is not recursive and it is at level 2
+                       # In fact the this config will use internally is 2, since there is no pattern
+                       # which will match at the specified level 5 or below.
   ]));
 ```
-
+  
+  
 ##### API Methods of `Monitor`:
 The constructor of `Monitor` accepts a `MonitorConfigurator` instance and optionally an instance of an external 
-React PHP LoopInterface ()or React PHP EventLoop). If no external EventLoop is passed, an internal one is created.  
-The loop must `run()` and the `run()` method of Monitor will execute the `run()` call on the EventLoop (The 
+React PHP LoopInterface (or React PHP EventLoop). If no external EventLoop is passed, an internal one is created.  
+The loop must be _ran_ and the `run()` method of Monitor will execute the `run()` call on the EventLoop (The 
 external or the internal).  
 Use an external EventLoop if for example two Monitors need to watch two different Base Directories (with different 
 patterns for each), then create an external Loop, pass it to both instances of `Monitor` and fire the `run()` 
