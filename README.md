@@ -19,7 +19,7 @@ It was created to monitor 3 basic events: Created, Modified, and Deleted. And to
 ## Installation
 
 ```bash
-$ composer require idimsh/inotify-monitor
+$ composer require idimsh/php-inotify-monitor
 ```
   
 #### Basic usage:
