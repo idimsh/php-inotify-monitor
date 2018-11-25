@@ -460,10 +460,12 @@ class Monitor extends EventEmitter
      */
     public function stop(): void
     {
-        if ($this->is_inotify_event_listener_attached) {
-            $this->setupListeners(true);
-        }
-        $this->remove($this->configurator->getBaseDirectoryWithTrailingSlash(), true);
+//        if ($this->is_inotify_event_listener_attached) {
+//            $this->setupListeners(true);
+//        }
+        $this->inotify->close();
+        $this->descriptors = [];
+        // $this->remove($this->configurator->getBaseDirectoryWithTrailingSlash(), true);
         if ($this->base_dir_monitor instanceof Monitor) {
             $this->base_dir_monitor->stop();
         }
