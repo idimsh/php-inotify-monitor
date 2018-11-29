@@ -146,23 +146,23 @@ class Monitor extends EventEmitter
             try {
                 $second_confiurator->setBaseDirectory('/');
                 $this->base_dir_monitor = new Monitor(
-                    $second_confiurator,
-                    $this->getEventLoop()
+                  $second_confiurator,
+                  $this->getEventLoop()
                 );
                 $this->base_dir_monitor->on(
-                    Monitor::EV_CREATE,
-                    function ($path, $monitor) use ($base_directory) {
-                        /**
-                         * @var \Dimsh\React\Filesystem\Monitor\Monitor $monitor
-                         */
-                        if ($path == $base_directory) {
-                            $monitor->getEventLoop()->stop();
-                            $this->inotify = new Inotify($monitor->getEventLoop());
-                            $this->setupListeners();
-                            $this->add($this->configurator->getBaseDirectoryWithTrailingSlash());
-                            $monitor->getEventLoop()->run();
-                        }
-                    }
+                  Monitor::EV_CREATE,
+                  function ($path, $monitor) use ($base_directory) {
+                      /**
+                       * @var \Dimsh\React\Filesystem\Monitor\Monitor $monitor
+                       */
+                      if ($path == $base_directory) {
+                          $monitor->getEventLoop()->stop();
+                          $this->inotify = new Inotify($monitor->getEventLoop());
+                          $this->setupListeners();
+                          $this->add($this->configurator->getBaseDirectoryWithTrailingSlash());
+                          $monitor->getEventLoop()->run();
+                      }
+                  }
                 );
             } catch (\Exception $exception) {
             }
@@ -447,27 +447,40 @@ class Monitor extends EventEmitter
     {
         if ($this->external_event_loop !== null) {
             trigger_error(
-                'calling run on Monitor external loop inside the monitor, this is mostly in-correct as the external loop must be run from the caller.',
-                E_USER_WARNING
+              'calling run on Monitor external loop inside the monitor, this is mostly in-correct as the external loop must be run from the caller.',
+              E_USER_WARNING
             );
         }
         return $this->getEventLoop()->run();
     }
 
     /**
-     * Stop the monitor
+     * Stop the monitor using a quick call to inotify close.
      * @return void
      */
     public function stop(): void
     {
-//        if ($this->is_inotify_event_listener_attached) {
-//            $this->setupListeners(true);
-//        }
         $this->inotify->close();
         $this->descriptors = [];
-        // $this->remove($this->configurator->getBaseDirectoryWithTrailingSlash(), true);
         if ($this->base_dir_monitor instanceof Monitor) {
             $this->base_dir_monitor->stop();
+        }
+    }
+
+    /**
+     * Stop the monitor using the traditional way of removing the listeners.
+     *
+     * @return void
+     */
+    public function stopTraditional(): void
+    {
+        if ($this->is_inotify_event_listener_attached) {
+            $this->setupListeners(true);
+        }
+
+        $this->remove($this->configurator->getBaseDirectoryWithTrailingSlash(), true);
+        if ($this->base_dir_monitor instanceof Monitor) {
+            $this->base_dir_monitor->stopTraditional();
         }
     }
 }
