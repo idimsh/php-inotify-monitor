@@ -455,24 +455,11 @@ class Monitor extends EventEmitter
     }
 
     /**
-     * Stop the monitor using a quick call to inotify close.
-     * @return void
-     */
-    public function stop(): void
-    {
-        $this->inotify->close();
-        $this->descriptors = [];
-        if ($this->base_dir_monitor instanceof Monitor) {
-            $this->base_dir_monitor->stop();
-        }
-    }
-
-    /**
      * Stop the monitor using the traditional way of removing the listeners.
      *
      * @return void
      */
-    public function stopTraditional(): void
+    public function stop(): void
     {
         if ($this->is_inotify_event_listener_attached) {
             $this->setupListeners(true);
@@ -480,7 +467,51 @@ class Monitor extends EventEmitter
 
         $this->remove($this->configurator->getBaseDirectoryWithTrailingSlash(), true);
         if ($this->base_dir_monitor instanceof Monitor) {
-            $this->base_dir_monitor->stopTraditional();
+            $this->base_dir_monitor->stop();
         }
     }
+
+    /**
+     * Stop the monitor using the traditional way and call the stop on the event loop.
+     *
+     * @return void
+     */
+    public function stopAll(): void
+    {
+        $this->stop();
+        $this->getEventLoop()->stop();
+    }
+
+    /**
+     * Stop the monitor using a quick call to inotify close.
+     *
+     * This should be used carefully, this is not the correct way of stopping the monitor.
+     *
+     * If called too many times, the following warning may be generated:
+     *
+     * PHP Warning:  inotify_add_watch(): The user limit on the total number of inotify
+     * watches was reached or the kernel failed to allocate a needed resource in
+     * vendor/mkraemer/react-inotify/src/MKraemer/ReactInotify/Inotify.php on line 77
+     *
+     * @return void
+     */
+    public function stopQuick(): void
+    {
+        $this->inotify->close();
+        $this->descriptors = [];
+        if ($this->base_dir_monitor instanceof Monitor) {
+            $this->base_dir_monitor->stopQuick();
+        }
+    }
+
+    /**
+     * Perform a quick stop and stop the event loop also.
+     *
+     */
+    public function stopQuickAll(): void
+    {
+        $this->stopQuick();
+        $this->getEventLoop()->stop();
+    }
+
 }
