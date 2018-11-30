@@ -279,4 +279,7 @@ sudo sysctl -p
 But this warning may indicate that you are setting up the watcher with too many resources which can mean bad configuration.
 
 ## License
-MIT
+MIT  
+
+## Contributions
+are welcome  
