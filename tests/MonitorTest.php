@@ -91,7 +91,7 @@ class MonitorTest extends \PHPUnit\Framework\TestCase
             // this will block until stop is called in the "oncreate" event handler.
             $monitor->run();
 
-            $this->assertEquals($list_of_created_items, [
+            $expected_created = [
               "$base_directory/",
               "$base_directory/file1-at-lev1",
               "$base_directory/dir1-at-lev1/",
@@ -101,7 +101,8 @@ class MonitorTest extends \PHPUnit\Framework\TestCase
               "$base_directory/dir3-at-lev1/file11-at-lev2",
               "$base_directory/dir2-at-lev1/file21-at-lev2",
               "$base_directory/stop-if-created/",
-            ]);
+            ];
+            $this->assertEquals($list_of_created_items, $expected_created);
 
             $this->assertEquals($list_of_modified_items, [
               "$base_directory/file1-at-lev1",
